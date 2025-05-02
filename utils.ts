@@ -8,6 +8,7 @@ export async function getOrCreateCollection() {
   const collections = await chroma.listCollections();
   if (collections.find((c) => c === collectionName)) {
     await chroma.deleteCollection({ name: collectionName });
+    console.log('Deleted previous collection');
   }
   return await chroma.getOrCreateCollection({ name: collectionName });
 }
