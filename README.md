@@ -28,8 +28,8 @@ Use the RAG:
 bun retrieve.ts "Create a svelte counter component using the $state rune"
 ```
 
-TODO: Mock the Ollama server:
+Start the Ollama wrapper server:
 
 ```bash
-bun serve.ts
+bun --watch serve.ts
 ```
