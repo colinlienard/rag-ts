@@ -1,5 +1,6 @@
 import ollama from 'ollama';
 import { getCollection } from './utils';
+import { config } from './config';
 
 const input = process.argv[2];
 
@@ -17,7 +18,7 @@ for (const [index, doc] of documents.entries()) {
 
 console.log('\nGenerating response...\n');
 
-const prompt = `Always use the Svelte 5 and runes syntax. Try to avoid using Svelte stores.
+const prompt = `${config.preprompt}
 Answer the following question based on the given context:
 Context: ${documents.join('\n')}
 Question: ${input}`;

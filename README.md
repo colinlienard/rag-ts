@@ -5,7 +5,7 @@
 Start the ChromaDB server:
 
 ```bash
-docker run -p 8000:8000 -v chroma-data:/chromadb/data chromadb/chroma
+docker run -p 8000:8000 -v chroma-data:/data chromadb/chroma
 ```
 
 Pull the Ollama embedding model:

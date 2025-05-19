@@ -1,5 +1,11 @@
 import ollama from 'ollama';
+import { config } from './config';
 import { getCollection } from './utils';
+
+type Body = {
+  model: string;
+  messages: { role: string; content: string }[];
+};
 
 const port = '11434';
 console.log('Listening on port', port);
@@ -9,7 +15,7 @@ Bun.serve({
   routes: {
     '/api/chat': {
       async POST(req) {
-        const body: { messages: { role: string; content: string }[] } = await req.json();
+        const body: Body = await req.json();
         const lastMessage = body.messages[body.messages.length - 1].content;
 
         const { embeddings } = await ollama.embed({
@@ -21,16 +27,11 @@ Bun.serve({
         const result = await collection.query({ queryEmbeddings: embeddings, nResults: 10 });
         const documents = result.documents[0].filter(Boolean);
 
-        body.messages[body.messages.length - 1].content =
-          `Always use the Svelte 5 and runes syntax. Try to avoid using Svelte stores.
+        body.messages[body.messages.length - 1].content = `${config.preprompt}
         Answer the following question based on the given context:
         Context: ${documents.join('\n')}
         Question: ${lastMessage}`;
-        const output = await ollama.chat({
-          model: 'mistral',
-          messages: body.messages,
-          stream: true,
-        });
+        const output = await ollama.chat({ ...body, stream: true });
 
         return new Response(
           new ReadableStream({

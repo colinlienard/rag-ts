@@ -1,5 +1,5 @@
 {
-  "name": "svelte-5-rag",
+  "name": "rag-ts",
   "type": "module",
   "private": true,
   "dependencies": {
